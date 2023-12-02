@@ -60,7 +60,7 @@ export function calculate(inputPath: string) {
   let gameSum = 0;
 
   for (let gameLine of allGames) {
-    console.log(gameLine)
+    console.log(gameLine);
     let extractedGameSets = lineToFormattedSet(gameLine);
 
     if (
@@ -79,4 +79,33 @@ export function calculate(inputPath: string) {
   return gameSum;
 }
 
-calculate("src/day2/input.txt");
+export function calculate2(inputPath: string) {
+  const allGames: string[] = readFileToLines(inputPath);
+
+  let gameSum = 0;
+
+  for (let gameLine of allGames) {
+    let minSetup = { blue: 0, green: 0, red: 0 };
+    let extractedGameSets = lineToFormattedSet(gameLine);
+
+    for (let gameSet of extractedGameSets) {
+      if (gameSet.cubes.blue > minSetup.blue) {
+        minSetup.blue = gameSet.cubes.blue;
+      }
+
+      if (gameSet.cubes.green > minSetup.green) {
+        minSetup.green = gameSet.cubes.green;
+      }
+
+      if (gameSet.cubes.red > minSetup.red) {
+        minSetup.red = gameSet.cubes.red;
+      }
+    }
+
+    gameSum += minSetup.red * minSetup.green * minSetup.blue;
+  }
+
+  return gameSum;
+}
+
+console.log(calculate2("src/day2/input.txt"));
