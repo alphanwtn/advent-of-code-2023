@@ -4,7 +4,7 @@ function readFileToLines(inputPath) {
   return data.split("\n");
 }
 
-function handleLetterDigits(digit) {
+function handleLetterDigit(digit) {
   switch (digit) {
     case "one":
       return "1";
@@ -30,6 +30,6 @@ function handleLetterDigits(digit) {
 }
 
 module.exports = {
-  readFileToLines: readFileToLines,
-  handleLetterDigits: handleLetterDigits,
+  readFileToLines,
+  handleLetterDigit,
 };
