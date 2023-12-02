@@ -1,10 +1,10 @@
-function readFileToLines(inputPath) {
+export function readFileToLines(inputPath: string) {
   const fs = require("fs");
   const data = fs.readFileSync(inputPath, { encoding: "utf-8", flag: "r" });
   return data.split("\n");
 }
 
-function handleLetterDigit(digit) {
+export function handleLetterDigit(digit: string): string {
   switch (digit) {
     case "one":
       return "1";
@@ -25,7 +25,7 @@ function handleLetterDigit(digit) {
     case "nine":
       return "9";
     default:
-      return String(digit);
+      return digit;
   }
 }
 

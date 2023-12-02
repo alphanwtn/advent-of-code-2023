@@ -1,4 +1,4 @@
-const { readFileToLines, handleLetterDigit } = require("../utils");
+import { readFileToLines, handleLetterDigit } from "../utils";
 
 function day1(inputPath: string): number {
   const allLines = readFileToLines(inputPath);
