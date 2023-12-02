@@ -1,6 +1,6 @@
 import { readFileToLines, handleLetterDigit } from "../utils";
 
-function day1(inputPath: string): number {
+export function day1(inputPath: string): number {
   const allLines = readFileToLines(inputPath);
   const digitRegex = /\d|one|two|three|four|five|six|seven|eight|nine/g;
   let sum = 0;
@@ -32,5 +32,3 @@ function day1(inputPath: string): number {
 }
 
 console.log(day1("src/day1/input.txt"));
-
-exports.fct1 = day1;
