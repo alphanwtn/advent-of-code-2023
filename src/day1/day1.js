@@ -1,32 +1,16 @@
-function fct1(inputPath) {
-  const { readFileToLines } = require("../utils");
-  const allLines = readFileToLines(inputPath);
+const { readFileToLines, handleLetterDigits } = require("../utils");
 
+function day1(inputPath) {
+  const allLines = readFileToLines(inputPath);
   const digitRegex = /\d|one|two|three|four|five|six|seven|eight|nine/g;
   let sum = 0;
 
-  function handleLetterDigits(digit) {
-    switch (digit) {
-      case "one":
-        return "1";
-      case "two":
-        return "2";
-      case "three":
-        return "3";
-      case "four":
-        return "4";
-      case "five":
-        return "5";
-      case "six":
-        return "6";
-      case "seven":
-        return "7";
-      case "eight":
-        return "8";
-      case "nine":
-        return "9";
-      default:
-        return String(digit);
+  function findSecondDigit(line) {
+    for (let i = 1; i <= line.length; i++) {
+      let chunkMatch = line.slice(-i).match(digitRegex);
+      if (chunkMatch) {
+        return chunkMatch[0];
+      }
     }
   }
 
@@ -34,17 +18,17 @@ function fct1(inputPath) {
     let digitMatch = line.match(digitRegex);
 
     if (digitMatch) {
-      let firstDigit = handleLetterDigits(digitMatch[0]);
-      let secondDigit = handleLetterDigits(digitMatch[digitMatch.length - 1]);
+      let rawFirstDigit = digitMatch[0];
+      let rawSecondDigit = findSecondDigit(line);
+      let firstDigit = handleLetterDigits(rawFirstDigit);
+      let secondDigit = handleLetterDigits(rawSecondDigit);
       sum += Number(firstDigit + secondDigit);
-    } else {
-      continue;
     }
   }
 
   return sum;
 }
 
-console.log(fct1("src/day1/input.txt"));
+console.log(day1("src/day1/input.txt"));
 
-exports.fct1 = fct1;
+exports.fct1 = day1;

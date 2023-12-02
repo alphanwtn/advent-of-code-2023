@@ -1,7 +1,5 @@
 const { fct1 } = require("./day1");
 
-const input1 = "1abc2";
-
 test("Should return 12 if input1 ", () => {
   expect(fct1("src/day1/input1.txt")).toBe(12);
 });
@@ -9,10 +7,6 @@ test("Should return 12 if input1 ", () => {
 test("Should return 27 if input2", () => {
   expect(fct1("src/day1/input2.txt")).toBe(27);
 });
-
-// test("Should return 54940 if input", () => {
-//   expect(fct1("src/day1/input.txt")).toBe(54940);
-// });
 
 test("Should return 29 if input", () => {
   expect(fct1("src/day1/input4.txt")).toBe(29);
