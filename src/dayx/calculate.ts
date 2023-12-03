@@ -18,4 +18,4 @@ export function calculate(inputPath: string) {
 //   return;
 // }
 
-console.log(calculate("src/dayX/inputs/input1.txt"));
+console.log("final return", calculate("src/dayX/inputs/input1.txt"));
