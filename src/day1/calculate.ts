@@ -56,4 +56,4 @@ export function calculate(inputPath: string): number {
   return sum;
 }
 
-console.log(calculate("src/day1/input.txt"));
+console.log(calculate("src/day1/inputs/input.txt"));

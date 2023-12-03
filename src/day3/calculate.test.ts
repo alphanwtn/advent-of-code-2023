@@ -1,12 +1,7 @@
 import { readFileToLines } from "../utils";
-import {
-  EngineNumber,
-  EngineSymbol,
-  calculate,
-  calculate2,
-  linesToEngineNumbers,
-  linesToEngineSymbols,
-} from "./calculate";
+import { EngineNumber, EngineSymbol } from "./classes";
+import { calculate, calculate2 } from "./calculate";
+import { linesToEngineNumbers, linesToEngineSymbols } from "./utils";
 
 test("1: Extract all engine numbers with good char", () => {
   const expectedEngNumbers = [

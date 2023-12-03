@@ -75,7 +75,6 @@ export function calculate(inputPath: string) {
     }
   }
 
-  console.log(gameSum);
   return gameSum;
 }
 
@@ -108,4 +107,4 @@ export function calculate2(inputPath: string) {
   return gameSum;
 }
 
-console.log(calculate2("src/day2/input.txt"));
+console.log(calculate2("src/day2/inputs/input.txt"));
