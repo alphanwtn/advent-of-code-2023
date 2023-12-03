@@ -60,7 +60,6 @@ export function calculate(inputPath: string) {
   let gameSum = 0;
 
   for (let gameLine of allGames) {
-    console.log(gameLine);
     let extractedGameSets = lineToFormattedSet(gameLine);
 
     if (
