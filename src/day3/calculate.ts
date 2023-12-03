@@ -1,5 +1,4 @@
 import { readFileToLines } from "../utils";
-import { EngineNumber, EngineSymbol } from "./classes";
 import { linesToEngineNumbers, linesToEngineSymbols } from "./utils";
 
 // part 1

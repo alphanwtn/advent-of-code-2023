@@ -48,6 +48,10 @@ export class EngineSymbol {
     let scanResult = 0;
     let gearList: number[] = [];
 
+    if (this.value !== "*") {
+      return scanResult;
+    }
+
     linesNumberToScan.forEach((line) =>
       line.forEach((number) => {
         if (
