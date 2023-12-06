@@ -1,5 +1,5 @@
 import { readFileToLines } from "../utils";
-import { AlmanacMap, calculate, extractSeedAndAlmanacMaps } from "./calculate";
+import { AlmanacMap, calculate, calculate2, extractSeedAndAlmanacMaps } from "./calculate";
 
 test("1: Extract seed all almanacs", () => {
   const almanacMapsSample = {
@@ -23,4 +23,8 @@ test("1: Extract seed all almanacs", () => {
 
 test("1: Calculate good value for example", () => {
   expect(calculate("src/day5/inputs/input2.txt")).toEqual(35);
+});
+
+test("2: Calculate good value for example", () => {
+  expect(calculate2("src/day5/inputs/input2.txt")).toEqual(46);
 });
