@@ -90,33 +90,31 @@ export function calculate2(inputPath: string) {
   const allLines: string[] = readFileToLines(inputPath);
   const { seeds, almanacMaps } = extractSeedAndAlmanacMaps(allLines);
 
+  const seedPairs: { seedStart: number; seedEnd: number }[] = [];
   let minLocation: number | undefined;
-  const allSeeds: number[] = [];
 
   for (let i = 0; i < seeds.length; i += 2) {
-    const seedStart = seeds[i];
-    const seedRange = seeds[i + 1];
-
-    let actualSeed = seedStart;
-
-    while (actualSeed < seedStart + seedRange) {
-      allSeeds.push(actualSeed);
-      actualSeed += 1;
-    }
+    seedPairs.push({
+      seedStart: seeds[i],
+      seedEnd: seeds[i] + seeds[i + 1] - 1,
+    });
   }
 
-  for (let seedIndex in allSeeds) {
-    let temporarySeedValue = allSeeds[seedIndex];
+  for (let seedPair of seedPairs) {
+    console.log(seedPair);
+    for (let seed = seedPair.seedStart; seed <= seedPair.seedEnd; seed++) {
+      let temporarySeedValue = seed;
 
-    for (let almanacMap of almanacMaps) {
-      temporarySeedValue = almanacMap.calculateMapOutput(temporarySeedValue);
-    }
+      for (let almanacMap of almanacMaps) {
+        temporarySeedValue = almanacMap.calculateMapOutput(temporarySeedValue);
+      }
 
-    if (!minLocation) {
-      minLocation = temporarySeedValue;
-    } else {
-      if (temporarySeedValue < minLocation) {
+      if (!minLocation) {
         minLocation = temporarySeedValue;
+      } else {
+        if (temporarySeedValue < minLocation) {
+          minLocation = temporarySeedValue;
+        }
       }
     }
   }
@@ -124,4 +122,4 @@ export function calculate2(inputPath: string) {
   return minLocation;
 }
 
-console.log("final return", calculate2("src/day5/inputs/input1.txt"));
+console.log("final return", calculate2("src/day5/inputs/input.txt"));
