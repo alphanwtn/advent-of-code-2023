@@ -1,11 +1,9 @@
 import { readFileToLines } from "../utils";
+import { calculateHandPower, compareHandPower } from "./utils-classic";
 import {
-  calculateCardPower,
-  calculateHandPower,
   calculateHandPowerJokerRules,
-  compareHandPower,
   compareHandPowerJokerRules,
-} from "./utils";
+} from "./utils-joker";
 
 export class CamelHand {
   hand: string;
@@ -54,4 +52,4 @@ console.log(
   calculate("src/day7/inputs/input.txt")
 );
 
-console.log("final return", calculate2("src/day7/inputs/input.txt"));
+console.log("final return 2", calculate2("src/day7/inputs/input.txt"));
