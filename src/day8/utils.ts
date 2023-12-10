@@ -1,4 +1,4 @@
-const calculateLCM = (...arr: number[]) => {
+export const calculateLCM = (...arr: number[]) => {
   const gcd2 = (a: number, b: number): number => {
     // Greatest common divisor of 2 integers
     if (!b) return b === 0 ? a : NaN;
