@@ -9,5 +9,5 @@ test("1:", () => {
 });
 
 test("2:", () => {
-  expect(calculate3("src/day8/inputs/input3.txt")).toBe(6);
+  expect(calculate2("src/day8/inputs/input3.txt")).toBe(6);
 });

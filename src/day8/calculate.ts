@@ -120,84 +120,12 @@ export function calculate3(inputPath: string) {
   let calculNodeIndex = 0;
   let maxCpt = 0;
 
-  while (
-    !currentNodes.every(
-      (node, index) =>
-        node.name.match(/..Z/) && node.state.cpt === currentNodes[0].state.cpt
-    )
-  ) {
-    while (currentNodes[calculNodeIndex].state.cpt <= maxCpt) {
-      if (calculNodeIndex === 0) {
-        currentNodes[calculNodeIndex] = executeNode(
-          /..Z/,
-          currentNodes[calculNodeIndex],
-          instructions
-        );
-      } else {
-        currentNodes[calculNodeIndex] = forceExecuteNode(
-          currentNodes[calculNodeIndex],
-          instructions
-        );
-      }
-      console.log("waiiit", currentNodes[calculNodeIndex]);
-    }
-
-    maxCpt = currentNodes[calculNodeIndex].state.cpt;
-
-    console.log(calculNodeIndex);
-
-    if (calculNodeIndex === 0) {
-      calculNodeIndex++;
-    } else {
-      const prevNodes = currentNodes.slice(0, calculNodeIndex);
-
-      for (let index in prevNodes) {
-        while (
-          prevNodes[index].state.cpt < currentNodes[calculNodeIndex].state.cpt
-        ) {
-          prevNodes[index] = forceExecuteNode(prevNodes[index], instructions);
-        }
-      }
-
-      // prevNodes.forEach((node, index) => {
-      //   while (
-      //     prevNodes[index].state.cpt < currentNodes[calculNodeIndex].state.cpt
-      //   ) {
-      //     prevNodes[index] = forceExecuteNode(prevNodes[index], instructions);
-      //   }
-
-      //   console.log("ptiinn");
-      // });
-
-      currentNodes = [...prevNodes, ...currentNodes.slice(calculNodeIndex)];
-
-      const subNodes = currentNodes.slice(0, calculNodeIndex + 1);
-
-      if (subNodes.every((node) => node.name.match(/..Z/))) {
-        calculNodeIndex++;
-      } else {
-        calculNodeIndex = 0;
-      }
-    }
-    console.log(currentNodes);
-  }
-
+  // think
   return currentNodes;
 }
 
-function forceExecuteNode(node: Node, instructions: string[]) {
-  console.log("bef");
-
-  return executeNode(/notused/, node, instructions, true);
-}
-
-function executeNode(
-  matchRegex: RegExp,
-  node: Node,
-  instructions: string[],
-  forceOnce?: boolean
-) {
-  while (!node.name.match(matchRegex) || forceOnce) {
+function executeNode(matchRegex: RegExp, node: Node, instructions: string[]) {
+  while (!node.name.match(matchRegex)) {
     if (!node.left || !node.right) {
       throw "No routes !!";
     }
@@ -214,12 +142,6 @@ function executeNode(
       : (node.state.instructionIndex = 0);
 
     node.state.cpt++;
-
-    // return node;
-
-    if (forceOnce) {
-      return node;
-    }
   }
 
   return node;
