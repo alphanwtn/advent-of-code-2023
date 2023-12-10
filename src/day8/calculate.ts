@@ -118,14 +118,24 @@ export function calculate3(inputPath: string) {
 
   let currentNodes = allNodes.filter((node) => node.name.match(/..A/))!;
   let calculNodeIndex = 0;
-  let maxCpt = 0;
 
-  // think
-  return currentNodes;
+  currentNodes[5] = executeNode(/..Z/, currentNodes[5], instructions);
+  console.log(currentNodes[5]);
+  currentNodes[5] = executeNode(/..Z/, currentNodes[5], instructions, true);
+  console.log(currentNodes[5]);
+  currentNodes[5] = executeNode(/..Z/, currentNodes[5], instructions, true);
+  console.log(currentNodes[5]);
+
+  return;
 }
 
-function executeNode(matchRegex: RegExp, node: Node, instructions: string[]) {
-  while (!node.name.match(matchRegex)) {
+function executeNode(
+  matchRegex: RegExp,
+  node: Node,
+  instructions: string[],
+  forceExec?: boolean
+) {
+  while (!node.name.match(matchRegex) || forceExec) {
     if (!node.left || !node.right) {
       throw "No routes !!";
     }
@@ -142,9 +152,13 @@ function executeNode(matchRegex: RegExp, node: Node, instructions: string[]) {
       : (node.state.instructionIndex = 0);
 
     node.state.cpt++;
+
+    if (forceExec) {
+      forceExec = false;
+    }
   }
 
   return node;
 }
 
-console.log("final return", calculate3("src/day8/inputs/input3.txt"));
+console.log("final return", calculate3("src/day8/inputs/input.txt"));
