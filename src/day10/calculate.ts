@@ -1,3 +1,4 @@
+import { forEach } from "lodash";
 import { readFileToLines } from "../utils";
 import { areConnectables, formatPipeMap } from "./utils";
 const _ = require("lodash");
@@ -46,9 +47,14 @@ class CurrentStep {
   }
 
   markTile(direction: boolean) {
+    // direction true : a droit de la trafectoire sinon a gauche
     const currentCoords = this.currentPipe.coords;
     const row = currentCoords[0];
     const col = currentCoords[1];
+
+    const prevCoords = this.prevPipe!.coords;
+    const prevRow = prevCoords[0];
+    const prevCol = prevCoords[1];
 
     const up = row - 1 >= 0 ? this.map[row - 1][col] : undefined;
     const down = row + 1 < this.map.length ? this.map[row + 1][col] : undefined;
@@ -58,12 +64,30 @@ class CurrentStep {
 
     switch (this.currentPipe.symbol) {
       case "|":
-        if (direction) {
+        let downUp = prevRow > row;
+        if (!direction) {
+          downUp = !downUp;
+        }
+
+        if (downUp) {
           right?.symbol === "." ? (right.symbol = "I") : null;
         } else {
           left?.symbol === "." ? (left.symbol = "I") : null;
         }
-    }
+        break;
+    //   case "-":
+    //     let leftRight = prevCol < col;
+    //     if (!direction) {
+    //       leftRight = !leftRight;
+    //     }
+
+    //     if (leftRight) {
+    //       right?.symbol === "." ? down && (down.symbol = "I") : null;
+    //     } else {
+    //       left?.symbol === "." ? up && (up.symbol = "I") : null;
+    //     }
+    //     break;
+    // }
   }
 }
 
@@ -101,12 +125,25 @@ export function calculate(inputPath: string) {
 }
 
 // part 2
-// export function calculate2(inputPath: string) {
-//   const allLines: string[] = readFileToLines(inputPath);
+export function calculate2(inputPath: string) {
+  const allLines: string[] = readFileToLines(inputPath);
+  const pipeStringMap: string[][] = allLines.map((line) => line.split(""));
+  const pipeMap = formatPipeMap(pipeStringMap);
+  const step = new CurrentStep(pipeMap);
 
-//   // Enter code here
+  do {
+    let nextPipe = step.findNextRoad();
+    if (!nextPipe) {
+      console.error("Pas de sol trouvée");
+    }
 
-//   return;
-// }
+    step.prevPipe = step.currentPipe;
+    step.currentPipe = nextPipe;
+    step.stepCpt++;
+    step.markTile(false);
+  } while (step.currentPipe.symbol !== "S");
 
-console.log("final return", calculate("src/day10/inputs/input.txt"));
+  return pipeMap.map((line) => line.map((pipe) => pipe.symbol));
+}
+
+console.log("final return", calculate2("src/day10/inputs/input1.txt"));
