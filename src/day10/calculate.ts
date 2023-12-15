@@ -1,5 +1,5 @@
 import { readFileToLines } from "../utils";
-import { areConnectables } from "./utils";
+import { areConnectables, formatPipeMap } from "./utils";
 const _ = require("lodash");
 
 export enum Cardinals {
@@ -9,22 +9,11 @@ export enum Cardinals {
   West = "West",
 }
 
-// Définir la classe Pipe
-export class Pipe {
+export type Pipe = {
   symbol: string;
   connections: Cardinals[];
   coords: [number, number];
-
-  constructor(
-    symbol: string,
-    connections: Cardinals[],
-    coords: [number, number]
-  ) {
-    this.symbol = symbol;
-    this.connections = connections;
-    this.coords = coords;
-  }
-}
+};
 
 class CurrentStep {
   map: Pipe[][];
@@ -55,6 +44,27 @@ class CurrentStep {
 
     return possibleRoads[0]!;
   }
+
+  markTile(direction: boolean) {
+    const currentCoords = this.currentPipe.coords;
+    const row = currentCoords[0];
+    const col = currentCoords[1];
+
+    const up = row - 1 >= 0 ? this.map[row - 1][col] : undefined;
+    const down = row + 1 < this.map.length ? this.map[row + 1][col] : undefined;
+    const left = col - 1 >= 0 ? this.map[row][col - 1] : undefined;
+    const right =
+      col + 1 < this.map[row].length ? this.map[row][col + 1] : undefined;
+
+    switch (this.currentPipe.symbol) {
+      case "|":
+        if (direction) {
+          right?.symbol === "." ? (right.symbol = "I") : null;
+        } else {
+          left?.symbol === "." ? (left.symbol = "I") : null;
+        }
+    }
+  }
 }
 
 export function findAnimalPipe(pipeMap: Pipe[][]): Pipe | null {
@@ -73,37 +83,7 @@ export function findAnimalPipe(pipeMap: Pipe[][]): Pipe | null {
 export function calculate(inputPath: string) {
   const allLines: string[] = readFileToLines(inputPath);
   const pipeStringMap: string[][] = allLines.map((line) => line.split(""));
-  const pipeMap = pipeStringMap.map((row, irow) =>
-    row.map((pipe, icol) => {
-      switch (pipe) {
-        case "|":
-          return new Pipe(
-            "|",
-            [Cardinals.North, Cardinals.South],
-            [irow, icol]
-          );
-        case "-":
-          return new Pipe("-", [Cardinals.East, Cardinals.West], [irow, icol]);
-        case "L":
-          return new Pipe("L", [Cardinals.North, Cardinals.East], [irow, icol]);
-        case "J":
-          return new Pipe("J", [Cardinals.North, Cardinals.West], [irow, icol]);
-        case "7":
-          return new Pipe("7", [Cardinals.South, Cardinals.West], [irow, icol]);
-        case "F":
-          return new Pipe("F", [Cardinals.South, Cardinals.East], [irow, icol]);
-        case "S":
-          return new Pipe(
-            "S",
-            [Cardinals.South, Cardinals.East, Cardinals.North, Cardinals.West],
-            [irow, icol]
-          );
-        default:
-          return new Pipe(".", [], [irow, icol]);
-      }
-    })
-  );
-
+  const pipeMap = formatPipeMap(pipeStringMap);
   const step = new CurrentStep(pipeMap);
 
   do {
@@ -115,8 +95,6 @@ export function calculate(inputPath: string) {
     step.prevPipe = step.currentPipe;
     step.currentPipe = nextPipe;
     step.stepCpt++;
-
-    console.log(step.currentPipe.symbol);
   } while (step.currentPipe.symbol !== "S");
 
   return step.stepCpt / 2;

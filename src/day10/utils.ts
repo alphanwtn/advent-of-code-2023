@@ -70,3 +70,67 @@ export function areConnectables(pipeA: Pipe, pipeB: Pipe): boolean {
       return false;
   }
 }
+
+export function formatPipeMap(stringMap: string[][]) {
+  const pipeMap: Pipe[][] = stringMap.map((row, irow) =>
+    row.map((pipe, icol) => {
+      switch (pipe) {
+        case "|":
+          return {
+            symbol: "|",
+            connections: [Cardinals.North, Cardinals.South],
+            coords: [irow, icol],
+          };
+        case "-":
+          return {
+            symbol: "-",
+            connections: [Cardinals.East, Cardinals.West],
+            coords: [irow, icol],
+          };
+        case "L":
+          return {
+            symbol: "L",
+            connections: [Cardinals.North, Cardinals.East],
+            coords: [irow, icol],
+          };
+        case "J":
+          return {
+            symbol: "J",
+            connections: [Cardinals.North, Cardinals.West],
+            coords: [irow, icol],
+          };
+        case "7":
+          return {
+            symbol: "7",
+            connections: [Cardinals.South, Cardinals.West],
+            coords: [irow, icol],
+          };
+        case "F":
+          return {
+            symbol: "F",
+            connections: [Cardinals.South, Cardinals.East],
+            coords: [irow, icol],
+          };
+        case "S":
+          return {
+            symbol: "S",
+            connections: [
+              Cardinals.South,
+              Cardinals.East,
+              Cardinals.North,
+              Cardinals.West,
+            ],
+            coords: [irow, icol],
+          };
+        default:
+          return {
+            symbol: ".",
+            connections: [],
+            coords: [irow, icol],
+          };
+      }
+    })
+  );
+
+  return pipeMap;
+}
